@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -47,5 +48,23 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Relación con las Playlists del usuario
+     * Un usuario puede tener muchas playlists
+     */
+    public function playlists(): HasMany
+    {
+        return $this->hasMany(Playlist::class);
+    }
+
+    /**
+     * Relación con los Canales del usuario
+     * Un usuario puede tener muchos canales
+     */
+    public function channels(): HasMany
+    {
+        return $this->hasMany(Channel::class);
     }
 }

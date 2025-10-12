@@ -10,17 +10,34 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import { dashboard, home } from '@/routes';
+import playlistCategoriesRoutes from '@/routes/playlist-categories';
+import channelCategoriesRoutes from '@/routes/channel-categories';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Folder, Home, LayoutGrid, PlaySquare } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
+        title: 'Inicio',
+        href: home(),
+        icon: Home,
+    },
+    {
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Categorías de playlists',
+        href: playlistCategoriesRoutes.index(),
+        icon: PlaySquare,
+    },
+    {
+        title: 'Categorías de canales',
+        href: channelCategoriesRoutes.index(),
+        icon: BookOpen,
     },
 ];
 
