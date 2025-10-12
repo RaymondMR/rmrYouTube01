@@ -82,7 +82,7 @@ export default function Home() {
            <div className="mx-auto flex max-w-5xl flex-col gap-12 px-6 sm:px-10">
                     
 
-                    <div className="grid gap-8 md:grid-cols-2">
+                    <div className="grid gap-20 md:grid-cols-2 mb-20">
                         <Link
                             href={playlistCategoriesRoutes.index().url}
                             className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
