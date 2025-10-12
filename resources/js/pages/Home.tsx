@@ -29,7 +29,7 @@ export default function Home() {
                     style={{ backgroundImage: heroBackgroundImage }}
                 />
                 <div className="relative z-10 flex flex-1 flex-col">
-                    <header className="px-6 pt-6 sm:px-10">
+                    <header className="flex justify-end px-6 pt-6 sm:px-10">
                         <div className="ml-auto flex flex-wrap items-center gap-3">
                             {user ? (
                                 <>
@@ -79,18 +79,8 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <section className="bg-gray-50 py-16">
-                <div className="mx-auto flex max-w-5xl flex-col gap-12 px-6 sm:px-10">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-semibold text-gray-900">
-                            Empieza a organizar tu contenido
-                        </h2>
-                        <p className="mt-3 text-base text-gray-600">
-                            Accede rápidamente a las áreas clave para administrar tus playlists y canales favoritos.
-                        </p>
-                    </div>
+           <div className="mx-auto flex max-w-5xl flex-col gap-12 px-6 sm:px-10">
+                    
 
                     <div className="grid gap-8 md:grid-cols-2">
                         <Link
@@ -162,7 +152,11 @@ export default function Home() {
                         </Link>
                     </div>
                 </div>
+           
+           
             </section>
+
+            
         </AppShell>
     );
 }
