@@ -1,156 +1,168 @@
-import { Head, Link } from '@inertiajs/react';
-import AppLayout from '@/layouts/app-layout';
-import playlistCategoriesRoutes from '@/routes/playlist-categories';
+import { Head, Link, usePage } from '@inertiajs/react';
+import { AppShell } from '@/components/app-shell';
+import { Button } from '@/components/ui/button';
 import channelCategoriesRoutes from '@/routes/channel-categories';
+import { login, logout, register } from '@/routes';
+import playlistCategoriesRoutes from '@/routes/playlist-categories';
+import profileRoutes from '@/routes/profile';
+import type { SharedData } from '@/types';
+import { Youtube } from 'lucide-react';
 
 /**
  * Landing Page del YouTube Content Manager
- * Muestra dos opciones principales: Playlists y Canales
+ * Presenta un hero con información principal y acciones según el estado de autenticación.
  */
 export default function Home() {
+    const { auth } = usePage<SharedData>().props;
+    const user = auth?.user;
+    const heroBackgroundImage =
+        "linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=2000&q=80')";
+
     return (
-        <AppLayout>
+        <AppShell>
             <Head title="YouTube Content Manager" />
 
-            <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-7xl mx-auto">
-                    {/* Header */}
-                    <div className="text-center mb-12">
-                        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                            YouTube Content Manager
-                        </h1>
-                        <p className="text-lg text-gray-600">
-                            Organiza tus listas de reproducción y canales favoritos de YouTube
-                        </p>
-                    </div>
+            <section className="relative flex min-h-screen flex-col overflow-hidden">
+                <div
+                    aria-hidden
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: heroBackgroundImage }}
+                />
+                <div className="relative z-10 flex flex-1 flex-col">
+                    <header className="px-6 pt-6 sm:px-10">
+                        <div className="ml-auto flex flex-wrap items-center gap-3">
+                            {user ? (
+                                <>
+                                    <Button asChild variant="secondary">
+                                        <Link href={profileRoutes.edit().url}>
+                                            {user.name}
+                                        </Link>
+                                    </Button>
+                                    <Button asChild variant="outline">
+                                        <Link href={logout().url} method="post">
+                                            Cerrar sesión
+                                        </Link>
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button asChild variant="outline">
+                                        <Link href={login().url}>
+                                            Iniciar sesión
+                                        </Link>
+                                    </Button>
+                                    <Button asChild>
+                                        <Link href={register().url}>
+                                            Crear cuenta
+                                        </Link>
+                                    </Button>
+                                </>
+                            )}
+                        </div>
+                    </header>
 
-                    {/* Tarjetas principales */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                        {/* Tarjeta: Categorías de Listas de Reproducción */}
-                        <Link
-                            href={playlistCategoriesRoutes.index().url}
-                            className="group relative bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
-                        >
-                            <div className="p-8">
-                                {/* Icono */}
-                                <div className="flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-6 group-hover:bg-red-200 transition-colors">
-                                    <svg
-                                        className="w-8 h-8 text-red-600"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                                        />
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        />
-                                    </svg>
+                    <div className="flex flex-1 flex-col items-center justify-center px-6 py-24 text-center text-white sm:px-10">
+                        <div className="flex flex-col items-center gap-6">
+                            <div className="flex flex-col items-center gap-4">
+                                <div className="flex items-center gap-4">
+                                    <span className="flex size-16 items-center justify-center rounded-full bg-white/90 text-red-600 shadow-lg">
+                                        <Youtube className="size-8" aria-hidden />
+                                    </span>
+                                    <h1 className="text-4xl font-bold sm:text-5xl">
+                                        YouTube Content Manager
+                                    </h1>
                                 </div>
-
-                                {/* Contenido */}
-                                <h2 className="text-2xl font-bold text-gray-900 mb-3">
-                                    Listas de Reproducción
-                                </h2>
-                                <p className="text-gray-600 mb-4">
-                                    Organiza y gestiona tus playlists de YouTube por categorías.
-                                    Guarda tus listas favoritas y accede a ellas fácilmente.
+                                <p className="max-w-2xl text-lg text-white/80 sm:text-xl">
+                                    Organize your favorite YouTube playlists and channels.
                                 </p>
-
-                                {/* Arrow */}
-                                <div className="flex items-center text-red-600 font-semibold group-hover:translate-x-2 transition-transform">
-                                    <span>Ver categorías</span>
-                                    <svg
-                                        className="w-5 h-5 ml-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M9 5l7 7-7 7"
-                                        />
-                                    </svg>
-                                </div>
                             </div>
-
-                            {/* Gradient overlay on hover */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-red-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-                        </Link>
-
-                        {/* Tarjeta: Categorías de Canales */}
-                        <Link
-                            href={channelCategoriesRoutes.index().url}
-                            className="group relative bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
-                        >
-                            <div className="p-8">
-                                {/* Icono */}
-                                <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-6 group-hover:bg-blue-200 transition-colors">
-                                    <svg
-                                        className="w-8 h-8 text-blue-600"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-                                        />
-                                    </svg>
-                                </div>
-
-                                {/* Contenido */}
-                                <h2 className="text-2xl font-bold text-gray-900 mb-3">
-                                    Canales de YouTube
-                                </h2>
-                                <p className="text-gray-600 mb-4">
-                                    Organiza y gestiona tus canales favoritos de YouTube.
-                                    Clasifícalos por categorías para encontrarlos rápidamente.
-                                </p>
-
-                                {/* Arrow */}
-                                <div className="flex items-center text-blue-600 font-semibold group-hover:translate-x-2 transition-transform">
-                                    <span>Ver categorías</span>
-                                    <svg
-                                        className="w-5 h-5 ml-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M9 5l7 7-7 7"
-                                        />
-                                    </svg>
-                                </div>
-                            </div>
-
-                            {/* Gradient overlay on hover */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-                        </Link>
-                    </div>
-
-                    {/* Footer info */}
-                    <div className="mt-12 text-center">
-                        <p className="text-sm text-gray-500">
-                            Gestiona tu contenido de YouTube de manera organizada y eficiente
-                        </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </AppLayout>
+            </section>
+
+            <section className="bg-gray-50 py-16">
+                <div className="mx-auto flex max-w-5xl flex-col gap-12 px-6 sm:px-10">
+                    <div className="text-center">
+                        <h2 className="text-3xl font-semibold text-gray-900">
+                            Empieza a organizar tu contenido
+                        </h2>
+                        <p className="mt-3 text-base text-gray-600">
+                            Accede rápidamente a las áreas clave para administrar tus playlists y canales favoritos.
+                        </p>
+                    </div>
+
+                    <div className="grid gap-8 md:grid-cols-2">
+                        <Link
+                            href={playlistCategoriesRoutes.index().url}
+                            className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                        >
+                            <div className="p-8">
+                                <div className="flex size-16 items-center justify-center rounded-full bg-red-100 text-red-600 transition-colors group-hover:bg-red-200">
+                                    <Youtube className="size-8" aria-hidden />
+                                </div>
+                                <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+                                    Categorías de playlists
+                                </h3>
+                                <p className="mt-3 text-gray-600">
+                                    Agrupa y administra tus listas de reproducción por temas para encontrarlas al instante.
+                                </p>
+                                <div className="mt-6 flex items-center text-red-600 font-medium transition-transform group-hover:translate-x-2">
+                                    <span>Ver categorías</span>
+                                    <svg
+                                        className="ml-2 size-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M9 5l7 7-7 7"
+                                        />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-red-50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                        </Link>
+
+                        <Link
+                            href={channelCategoriesRoutes.index().url}
+                            className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                        >
+                            <div className="p-8">
+                                <div className="flex size-16 items-center justify-center rounded-full bg-blue-100 text-blue-600 transition-colors group-hover:bg-blue-200">
+                                    <Youtube className="size-8" aria-hidden />
+                                </div>
+                                <h3 className="mt-6 text-2xl font-semibold text-gray-900">
+                                    Categorías de canales
+                                </h3>
+                                <p className="mt-3 text-gray-600">
+                                    Clasifica tus canales favoritos y mantén a la vista los contenidos que más te inspiran.
+                                </p>
+                                <div className="mt-6 flex items-center text-blue-600 font-medium transition-transform group-hover:translate-x-2">
+                                    <span>Ver categorías</span>
+                                    <svg
+                                        className="ml-2 size-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M9 5l7 7-7 7"
+                                        />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                        </Link>
+                    </div>
+                </div>
+            </section>
+        </AppShell>
     );
 }
