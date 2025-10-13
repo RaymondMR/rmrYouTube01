@@ -1,0 +1,9 @@
+TAREAS PENDIENTES:
+Modificar las tarjetas de Categorías de playlists (Inicio>
+Categorías de Playlists)
+y de  Categorías de canales (Inicio>Categorías de Canales)
+en ambos quitar el side-bar. y darle mejor aspecto vivo a las paginas
+
+Cargar desde SQLite las playlists y los canales (popular la base de datos SQLite del proyecto)
+
+Ya que funcione bien el proyecto Dockerizarlo con Docker Composey cargarlo en Digital Ocean
