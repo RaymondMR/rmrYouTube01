@@ -1,0 +1,1 @@
+PowerShell -ExecutionPolicy Bypass -File start_laravel.ps1

@@ -15,6 +15,13 @@ import { Youtube } from 'lucide-react';
 export default function Home() {
     const { auth } = usePage<SharedData>().props;
     const user = auth?.user;
+    const isAuthenticated = Boolean(user);
+    const playlistCategoriesHref = isAuthenticated
+        ? playlistCategoriesRoutes.index().url
+        : login().url;
+    const channelCategoriesHref = isAuthenticated
+        ? channelCategoriesRoutes.index().url
+        : login().url;
     const heroBackgroundImage =
         "linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=2000&q=80')";
 
@@ -84,7 +91,7 @@ export default function Home() {
 
                     <div className="grid gap-20 md:grid-cols-2 mb-20">
                         <Link
-                            href={playlistCategoriesRoutes.index().url}
+                            href={playlistCategoriesHref}
                             className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                         >
                             <div className="p-8">
@@ -118,7 +125,7 @@ export default function Home() {
                         </Link>
 
                         <Link
-                            href={channelCategoriesRoutes.index().url}
+                            href={channelCategoriesHref}
                             className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                         >
                             <div className="p-8">

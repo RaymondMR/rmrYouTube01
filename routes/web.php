@@ -8,18 +8,15 @@ use App\Http\Controllers\PlaylistController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('welcome');
+Route::get('/', [HomeController::class, 'index']);
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard (original)
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
-
-    // Home - Landing page para YouTube Content Manager
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     // Rutas para Categorías de Playlists
     Route::resource('playlist-categories', PlaylistCategoryController::class)
