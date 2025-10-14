@@ -138,7 +138,10 @@ export default function ChannelCategoriesIndex({
     }, [initialSearch]);
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AppLayout
+            breadcrumbs={breadcrumbs}
+            contentClassName="bg-[linear-gradient(135deg,_#667eea_0%,_#764ba2_100%)]"
+        >
             <Head title="Categorías de Canales" />
 
             <Toast message={flashMessage} variant={flash?.error ? 'error' : 'success'} />
@@ -146,10 +149,10 @@ export default function ChannelCategoriesIndex({
             <div className="flex flex-col gap-8 p-6">
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                     <div className="space-y-1.5">
-                        <h1 className="text-3xl font-semibold text-gray-900">
+                        <h1 className="text-3xl font-semibold text-white">
                             Categorías de canales
                         </h1>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-white/80">
                             Organiza tus canales favoritos por temática o propósito.
                         </p>
                     </div>

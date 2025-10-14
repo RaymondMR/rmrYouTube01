@@ -142,7 +142,10 @@ export default function PlaylistCategoriesIndex({
     }, [initialSearch]);
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AppLayout
+            breadcrumbs={breadcrumbs}
+            contentClassName="bg-[linear-gradient(135deg,_#667eea_0%,_#764ba2_100%)]"
+        >
             <Head title="Categorías de Playlists" />
 
             <Toast message={flashMessage} variant={flash?.error ? 'error' : 'success'} />
@@ -151,10 +154,10 @@ export default function PlaylistCategoriesIndex({
                 {/* Cabecera con título y CTA */}
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                     <div className="space-y-1.5">
-                        <h1 className="text-3xl font-semibold text-gray-900">
+                        <h1 className="text-3xl font-semibold text-white">
                             Categorías de playlists
                         </h1>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-white/80">
                             Agrupa tus listas de reproducción favoritas para encontrarlas rápidamente.
                         </p>
                     </div>
