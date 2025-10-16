@@ -92,7 +92,7 @@ export default function Home() {
                     <div className="grid gap-20 md:grid-cols-2 mb-20">
                         <Link
                             href={playlistCategoriesHref}
-                            className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                            className="group relative overflow-hidden rounded-2xl bg-[rgb(226,223,206)]  shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl "
                         >
                             <div className="p-8">
                                 <div className="flex size-16 items-center justify-center rounded-full bg-red-100 text-red-600 transition-colors group-hover:bg-red-200">
@@ -104,7 +104,7 @@ export default function Home() {
                                 <p className="mt-3 text-gray-600">
                                     Agrupa y administra tus listas de reproducción por temas para encontrarlas al instante.
                                 </p>
-                                <div className="mt-6 flex items-center text-red-600 font-medium transition-transform group-hover:translate-x-2">
+                                <div className="mt-6 flex items-center text-red-600 font-medium transition-transform group-hover:translate-x-4">
                                     <span>Ver categorías</span>
                                     <svg
                                         className="ml-2 size-5"
@@ -121,12 +121,12 @@ export default function Home() {
                                     </svg>
                                 </div>
                             </div>
-                            <div className="absolute inset-0 bg-gradient-to-r from-red-50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                            {/*<div className="absolute inset-0 bg-gradient-to-r from-red-50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />*/}
                         </Link>
 
                         <Link
                             href={channelCategoriesHref}
-                            className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                            className="group relative overflow-hidden rounded-2xl bg-[rgb(226,223,206)]  shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
                         >
                             <div className="p-8">
                                 <div className="flex size-16 items-center justify-center rounded-full bg-blue-100 text-blue-600 transition-colors group-hover:bg-blue-200">
@@ -138,7 +138,7 @@ export default function Home() {
                                 <p className="mt-3 text-gray-600">
                                     Clasifica tus canales favoritos y mantén a la vista los contenidos que más te inspiran.
                                 </p>
-                                <div className="mt-6 flex items-center text-blue-600 font-medium transition-transform group-hover:translate-x-2">
+                                <div className="mt-6 flex items-center text-blue-600 font-medium transition-transform group-hover:translate-x-4">
                                     <span>Ver categorías</span>
                                     <svg
                                         className="ml-2 size-5"
@@ -155,7 +155,7 @@ export default function Home() {
                                     </svg>
                                 </div>
                             </div>
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                            {/*<div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />*/}
                         </Link>
                     </div>
                 </div>

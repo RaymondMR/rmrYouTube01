@@ -1,3 +1,3 @@
-PowerShell -ExecutionPolicy Bypass -File start_laravel.ps1
+PowerShell -ExecutionPolicy Bypass -File .\start_laravel.ps1
 
 

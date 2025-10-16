@@ -28,6 +28,7 @@ interface PageProps {
         success?: string;
         error?: string;
     };
+    [key: string]: unknown;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -144,20 +145,20 @@ export default function PlaylistCategoriesIndex({
     return (
         <AppLayout
             breadcrumbs={breadcrumbs}
-            contentClassName="bg-[linear-gradient(135deg,_#667eea_0%,_#764ba2_100%)]"
+            contentClassName="bg-[linear-gradient(135deg,_rgb(224,220,220)_0%,_rgb(226,223,206)_45%,_rgb(180,172,141)_100%)]"
         >
             <Head title="Categorías de Playlists" />
 
             <Toast message={flashMessage} variant={flash?.error ? 'error' : 'success'} />
 
-            <div className="flex flex-col gap-8 p-6">
+            <div className="flex flex-col gap-8 p-6 text-neutral-900">
                 {/* Cabecera con título y CTA */}
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                     <div className="space-y-1.5">
-                        <h1 className="text-3xl font-semibold text-white">
+                        <h1 className="text-3xl font-semibold text-neutral-900">
                             Categorías de playlists
                         </h1>
-                        <p className="text-sm text-white/80">
+                        <p className="text-sm text-neutral-700">
                             Agrupa tus listas de reproducción favoritas para encontrarlas rápidamente.
                         </p>
                     </div>

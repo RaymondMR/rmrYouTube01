@@ -42,47 +42,49 @@ export function CategoryCard({
     }).format(new Date(createdAt));
 
     return (
-        <Card className="h-full overflow-hidden border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+        <Card className="h-full overflow-hidden border-t-[10px] border-b-[10px] border-yellow-300 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md hover:bg-gray-400">
             <Link href={href} className="block">
-                <CardContent className="space-y-3 px-6 py-5">
-                    <h3 className="text-xl font-semibold text-gray-900">
-                        {name}
-                    </h3>
-                    <p className="text-sm text-gray-600">
-                        {totalItems}{' '}
-                        {totalItems === 1
-                            ? itemLabel
-                            : itemsLabel ?? `${itemLabel}s`}
-                    </p>
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                        <Calendar className="size-4" aria-hidden />
-                        Creada el {formattedDate}
+                <div className="flex items-start justify-between w-full ">
+                    <CardContent className="flex-1">
+                        <h3 className="text-xl font-semibold text-gray-900">
+                            {name}
+                        </h3>
+                        <p className="text-sm text-gray-600 mt-2">
+                            {totalItems}{' '}
+                            {totalItems === 1
+                                ? itemLabel
+                                : itemsLabel ?? `${itemLabel}s`}
+                        </p>
+                        {/* <div className="flex items-center gap-2 text-xs text-gray-500">
+                            <Calendar className="size-4" aria-hidden />
+                            Creada el {formattedDate}
+                        </div> */}
+                    </CardContent>
+
+                    <div className="flex items-start gap-2">
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            className="h-8 px-3 text-sm text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+                            onClick={onEdit}
+                        >
+                            <Edit className="size-4" aria-hidden />
+                            Editar
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            className="h-8 px-3 text-sm text-red-600 hover:bg-red-50 hover:text-red-700"
+                            onClick={onDelete}
+                        >
+                            <Trash2 className="size-4" aria-hidden />
+                            Eliminar
+                        </Button>
                     </div>
-                </CardContent>
+                </div>
             </Link>
 
-            <CardFooter className="border-t border-gray-100 bg-gray-50 px-4 py-3">
-                <div className="flex w-full items-center justify-end gap-2">
-                    <Button
-                        type="button"
-                        variant="ghost"
-                        className="h-8 px-3 text-sm text-blue-600 hover:bg-blue-50 hover:text-blue-700"
-                        onClick={onEdit}
-                    >
-                        <Edit className="size-4" aria-hidden />
-                        Editar
-                    </Button>
-                    <Button
-                        type="button"
-                        variant="ghost"
-                        className="h-8 px-3 text-sm text-red-600 hover:bg-red-50 hover:text-red-700"
-                        onClick={onDelete}
-                    >
-                        <Trash2 className="size-4" aria-hidden />
-                        Eliminar
-                    </Button>
-                </div>
-            </CardFooter>
+            
         </Card>
     );
 }
