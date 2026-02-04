@@ -20,16 +20,21 @@ import { type CSSProperties } from 'react';
 import { cn } from '@/lib/utils';
 import AppLogo from './app-logo';
 
+
+/*
+    Se elimino este item:
+    {
+        title: 'Dashboard',
+        href: dashboard(),
+        icon: LayoutGrid,
+    },
+
+*/
 const mainNavItems: NavItem[] = [
     {
         title: 'Inicio',
         href: home(),
         icon: Home,
-    },
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
     },
     {
         title: 'Categorías de playlists',

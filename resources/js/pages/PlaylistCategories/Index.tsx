@@ -145,7 +145,7 @@ export default function PlaylistCategoriesIndex({
     return (
         <AppLayout
             breadcrumbs={breadcrumbs}
-            contentClassName="bg-[linear-gradient(135deg,_rgb(224,220,220)_0%,_rgb(226,223,206)_45%,_rgb(180,172,141)_100%)]"
+            contentClassName="bg-[linear-gradient(180deg,_rgb(180,172,141)_0%,_rgb(226,223,206)_55%,_rgb(224,220,220)_100%)]"
         >
             <Head title="Categorías de Playlists" />
 

@@ -53,7 +53,7 @@ export function ChannelCard({
             <CardHeader className="space-y-3 px-6 py-4">
                 <CardTitle className="flex items-start gap-2 text-lg">
                     <Antenna className="mt-1 size-5 text-blue-500" aria-hidden />
-                    <span className="leading-tight">{name}</span>
+                    <span className="leading-tight  text-blue-600">{name}</span>
                 </CardTitle>
                 {handle && (
                     <p className="text-sm font-medium text-blue-600">

@@ -178,7 +178,9 @@ export default function PlaylistsIndex({
     }, [initialSearch]);
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AppLayout breadcrumbs={breadcrumbs}
+        contentClassName="bg-[linear-gradient(180deg,_rgb(180,172,141)_0%,_rgb(226,223,206)_55%,_rgb(224,220,220)_100%)]"
+        >
             <Head title={`Playlists de ${category.name}`} />
 
             <Toast message={flashMessage} variant={flash?.error ? 'error' : 'success'} />
