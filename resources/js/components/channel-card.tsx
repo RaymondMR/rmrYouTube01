@@ -7,7 +7,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import { Antenna, ExternalLink, Edit, Trash2 } from 'lucide-react';
+import { Antenna, Edit, ExternalLink, Trash2 } from 'lucide-react';
 import { type MouseEventHandler } from 'react';
 
 interface ChannelCardProps {
@@ -52,8 +52,11 @@ export function ChannelCard({
         <Card className="flex h-full flex-col justify-between border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
             <CardHeader className="space-y-3 px-6 py-4">
                 <CardTitle className="flex items-start gap-2 text-lg">
-                    <Antenna className="mt-1 size-5 text-blue-500" aria-hidden />
-                    <span className="leading-tight  text-blue-600">{name}</span>
+                    <Antenna
+                        className="mt-1 size-5 text-blue-500"
+                        aria-hidden
+                    />
+                    <span className="leading-tight text-blue-600">{name}</span>
                 </CardTitle>
                 {handle && (
                     <p className="text-sm font-medium text-blue-600">
@@ -80,17 +83,13 @@ export function ChannelCard({
                         </span>
                     )}
                 </div>
-                <p className="mt-4 text-xs uppercase tracking-wide text-gray-400">
+                <p className="mt-4 text-xs tracking-wide text-gray-400 uppercase">
                     Registrado el {formattedDate}
                 </p>
             </CardContent>
 
             <CardFooter className="flex items-center justify-between gap-2 border-t border-gray-100 bg-gray-50 px-4 py-3">
-                <Button
-                    asChild
-                    variant="outline"
-                    className="h-9 px-4 text-sm"
-                >
+                <Button asChild variant="outline" className="h-9 px-4 text-sm">
                     <a
                         href={url}
                         target="_blank"

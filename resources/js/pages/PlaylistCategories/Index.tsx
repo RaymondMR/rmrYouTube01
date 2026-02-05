@@ -1,14 +1,14 @@
-import { Modal } from '@/components/modal';
-import InputError from '@/components/input-error';
 import { CategoryCard } from '@/components/category-card';
+import InputError from '@/components/input-error';
+import { Modal } from '@/components/modal';
 import { SearchBar } from '@/components/search-bar';
 import { Toast } from '@/components/toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
+import { home } from '@/routes';
 import playlistCategoriesRoutes from '@/routes/playlist-categories';
 import playlistsRoutes from '@/routes/playlists';
-import { home } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router, useForm, usePage } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
@@ -33,7 +33,10 @@ interface PageProps {
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Inicio', href: home().url },
-    { title: 'Categorías de Playlists', href: playlistCategoriesRoutes.index().url },
+    {
+        title: 'Categorías de Playlists',
+        href: playlistCategoriesRoutes.index().url,
+    },
 ];
 
 /**
@@ -46,7 +49,8 @@ export default function PlaylistCategoriesIndex({
     const { flash } = usePage<PageProps>().props;
     const [searchTerm, setSearchTerm] = useState(initialSearch);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingCategory, setEditingCategory] = useState<PlaylistCategory | null>(null);
+    const [editingCategory, setEditingCategory] =
+        useState<PlaylistCategory | null>(null);
 
     // Formulario para crear/editar una categoría
     const form = useForm({
@@ -101,9 +105,12 @@ export default function PlaylistCategoriesIndex({
                 `¿Seguro que deseas eliminar la categoría "${category.name}"? Esta acción no se puede deshacer.`,
             )
         ) {
-            deleteForm.delete(playlistCategoriesRoutes.destroy(category.id).url, {
-                preserveScroll: true,
-            });
+            deleteForm.delete(
+                playlistCategoriesRoutes.destroy(category.id).url,
+                {
+                    preserveScroll: true,
+                },
+            );
         }
     };
 
@@ -149,7 +156,10 @@ export default function PlaylistCategoriesIndex({
         >
             <Head title="Categorías de Playlists" />
 
-            <Toast message={flashMessage} variant={flash?.error ? 'error' : 'success'} />
+            <Toast
+                message={flashMessage}
+                variant={flash?.error ? 'error' : 'success'}
+            />
 
             <div className="flex flex-col gap-8 p-6 text-neutral-900">
                 {/* Cabecera con título y CTA */}
@@ -159,11 +169,15 @@ export default function PlaylistCategoriesIndex({
                             Categorías de playlists
                         </h1>
                         <p className="text-sm text-neutral-700">
-                            Agrupa tus listas de reproducción favoritas para encontrarlas rápidamente.
+                            Agrupa tus listas de reproducción favoritas para
+                            encontrarlas rápidamente.
                         </p>
                     </div>
 
-                    <Button onClick={openCreateModal} className="h-10 gap-2 self-start sm:self-auto">
+                    <Button
+                        onClick={openCreateModal}
+                        className="h-10 gap-2 self-start sm:self-auto"
+                    >
                         <Plus className="size-4" aria-hidden />
                         Nueva categoría
                     </Button>
@@ -186,7 +200,8 @@ export default function PlaylistCategoriesIndex({
                             Aún no tienes categorías registradas.
                         </p>
                         <p className="mt-2 max-w-lg text-sm text-gray-500">
-                            Crea tu primera categoría para comenzar a organizar tus playlists de YouTube.
+                            Crea tu primera categoría para comenzar a organizar
+                            tus playlists de YouTube.
                         </p>
                         <Button onClick={openCreateModal} className="mt-6">
                             Crear categoría
@@ -262,7 +277,9 @@ export default function PlaylistCategoriesIndex({
                         <Input
                             id="category-name"
                             value={form.data.name}
-                            onChange={(event) => form.setData('name', event.target.value)}
+                            onChange={(event) =>
+                                form.setData('name', event.target.value)
+                            }
                             placeholder="Ej. Programación, Música, Diseño…"
                             autoFocus
                         />

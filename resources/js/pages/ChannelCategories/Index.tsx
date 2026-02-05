@@ -1,14 +1,14 @@
-import { Modal } from '@/components/modal';
-import InputError from '@/components/input-error';
 import { CategoryCard } from '@/components/category-card';
+import InputError from '@/components/input-error';
+import { Modal } from '@/components/modal';
 import { SearchBar } from '@/components/search-bar';
 import { Toast } from '@/components/toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
+import { home } from '@/routes';
 import channelCategoriesRoutes from '@/routes/channel-categories';
 import channelsRoutes from '@/routes/channels';
-import { home } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router, useForm, usePage } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
@@ -33,7 +33,10 @@ interface PageProps {
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Inicio', href: home().url },
-    { title: 'Categorías de Canales', href: channelCategoriesRoutes.index().url },
+    {
+        title: 'Categorías de Canales',
+        href: channelCategoriesRoutes.index().url,
+    },
 ];
 
 /**
@@ -46,7 +49,8 @@ export default function ChannelCategoriesIndex({
     const { flash } = usePage<PageProps>().props;
     const [searchTerm, setSearchTerm] = useState(initialSearch);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingCategory, setEditingCategory] = useState<ChannelCategory | null>(null);
+    const [editingCategory, setEditingCategory] =
+        useState<ChannelCategory | null>(null);
 
     const form = useForm({
         name: '',
@@ -98,9 +102,12 @@ export default function ChannelCategoriesIndex({
                 `¿Seguro que deseas eliminar la categoría "${category.name}"? Esta acción no se puede deshacer.`,
             )
         ) {
-            deleteForm.delete(channelCategoriesRoutes.destroy(category.id).url, {
-                preserveScroll: true,
-            });
+            deleteForm.delete(
+                channelCategoriesRoutes.destroy(category.id).url,
+                {
+                    preserveScroll: true,
+                },
+            );
         }
     };
 
@@ -145,7 +152,10 @@ export default function ChannelCategoriesIndex({
         >
             <Head title="Categorías de Canales" />
 
-            <Toast message={flashMessage} variant={flash?.error ? 'error' : 'success'} />
+            <Toast
+                message={flashMessage}
+                variant={flash?.error ? 'error' : 'success'}
+            />
 
             <div className="flex flex-col gap-8 p-6 text-neutral-900">
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
@@ -154,11 +164,15 @@ export default function ChannelCategoriesIndex({
                             Categorías de canales
                         </h1>
                         <p className="text-sm text-neutral-700">
-                            Organiza tus canales favoritos por temática o propósito.
+                            Organiza tus canales favoritos por temática o
+                            propósito.
                         </p>
                     </div>
 
-                    <Button onClick={openCreateModal} className="h-10 gap-2 self-start sm:self-auto">
+                    <Button
+                        onClick={openCreateModal}
+                        className="h-10 gap-2 self-start sm:self-auto"
+                    >
                         <Plus className="size-4" aria-hidden />
                         Nueva categoría
                     </Button>
@@ -179,7 +193,8 @@ export default function ChannelCategoriesIndex({
                             No se encontraron categorías.
                         </p>
                         <p className="mt-2 max-w-lg text-sm text-gray-500">
-                            Crea una nueva categoría para comenzar a clasificar tus canales de YouTube.
+                            Crea una nueva categoría para comenzar a clasificar
+                            tus canales de YouTube.
                         </p>
                         <Button onClick={openCreateModal} className="mt-6">
                             Crear categoría
@@ -254,7 +269,9 @@ export default function ChannelCategoriesIndex({
                         <Input
                             id="channel-category-name"
                             value={form.data.name}
-                            onChange={(event) => form.setData('name', event.target.value)}
+                            onChange={(event) =>
+                                form.setData('name', event.target.value)
+                            }
                             placeholder="Ej. Educación, Entretenimiento, Inspiración…"
                             autoFocus
                         />

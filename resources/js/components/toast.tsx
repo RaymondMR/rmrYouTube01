@@ -1,6 +1,6 @@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { cn } from '@/lib/utils';
-import { CheckCircle2, XCircle, X } from 'lucide-react';
+import { CheckCircle2, X, XCircle } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
 type ToastVariant = 'success' | 'error';
@@ -76,7 +76,7 @@ export function Toast({
                         setVisible(false);
                         onClose?.();
                     }}
-                    className="absolute right-2 top-2 rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
+                    className="absolute top-2 right-2 rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
                     aria-label="Cerrar notificación"
                 >
                     <X className="size-4" aria-hidden />

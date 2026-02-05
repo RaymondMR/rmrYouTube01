@@ -10,16 +10,15 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { cn } from '@/lib/utils';
 import { dashboard, home } from '@/routes';
-import playlistCategoriesRoutes from '@/routes/playlist-categories';
 import channelCategoriesRoutes from '@/routes/channel-categories';
+import playlistCategoriesRoutes from '@/routes/playlist-categories';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, Home, LayoutGrid, PlaySquare } from 'lucide-react';
+import { BookOpen, Folder, Home, PlaySquare } from 'lucide-react';
 import { type CSSProperties } from 'react';
-import { cn } from '@/lib/utils';
 import AppLogo from './app-logo';
-
 
 /*
     Se elimino este item:

@@ -27,7 +27,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
             <Form
                 {...AuthenticatedSessionController.store.form()}
                 resetOnSuccess={['password']}
-                className="flex flex-col gap-6"
+                className="flex flex-col gap-6 rounded-lg bg-white/90 p-6 text-slate-900 shadow-lg ring-1 ring-black/5"
             >
                 {({ processing, errors }) => (
                     <>
@@ -53,7 +53,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                     {canResetPassword && (
                                         <TextLink
                                             href={request()}
-                                            className="ml-auto text-sm"
+                                            className="ml-auto text-sm font-medium text-blue-600 hover:text-blue-800"
                                             tabIndex={5}
                                         >
                                             Forgot password?
@@ -83,7 +83,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
                             <Button
                                 type="submit"
-                                className="mt-4 w-full"
+                                className="mt-4 w-full bg-blue-600 text-white hover:bg-blue-700"
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"
@@ -95,9 +95,13 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             </Button>
                         </div>
 
-                        <div className="text-center text-sm text-muted-foreground">
+                        <div className="text-center text-sm">
                             Don't have an account?{' '}
-                            <TextLink href={register()} tabIndex={5}>
+                            <TextLink
+                                href={register()}
+                                tabIndex={5}
+                                className="font-medium text-blue-600 hover:text-blue-800"
+                            >
                                 Sign up
                             </TextLink>
                         </div>

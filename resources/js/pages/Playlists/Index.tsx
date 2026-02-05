@@ -1,16 +1,16 @@
-import { Modal } from '@/components/modal';
 import InputError from '@/components/input-error';
+import { Modal } from '@/components/modal';
 import { PlaylistCard } from '@/components/playlist-card';
 import { SearchBar } from '@/components/search-bar';
 import { Toast } from '@/components/toast';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
+import { home } from '@/routes';
 import playlistCategoriesRoutes from '@/routes/playlist-categories';
 import playlistsRoutes from '@/routes/playlists';
-import { home } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router, useForm, usePage } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
@@ -45,7 +45,10 @@ interface PageProps {
 
 const breadcrumbBase: BreadcrumbItem[] = [
     { title: 'Inicio', href: home().url },
-    { title: 'Categorías de Playlists', href: playlistCategoriesRoutes.index().url },
+    {
+        title: 'Categorías de Playlists',
+        href: playlistCategoriesRoutes.index().url,
+    },
 ];
 
 /**
@@ -60,7 +63,9 @@ export default function PlaylistsIndex({
     const { flash } = usePage<PageProps>().props;
     const [searchTerm, setSearchTerm] = useState(initialSearch);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingPlaylist, setEditingPlaylist] = useState<Playlist | null>(null);
+    const [editingPlaylist, setEditingPlaylist] = useState<Playlist | null>(
+        null,
+    );
 
     const form = useForm({
         title: '',
@@ -178,12 +183,16 @@ export default function PlaylistsIndex({
     }, [initialSearch]);
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}
-        contentClassName="bg-[linear-gradient(180deg,_rgb(180,172,141)_0%,_rgb(226,223,206)_55%,_rgb(224,220,220)_100%)]"
+        <AppLayout
+            breadcrumbs={breadcrumbs}
+            contentClassName="bg-[linear-gradient(180deg,_rgb(180,172,141)_0%,_rgb(226,223,206)_55%,_rgb(224,220,220)_100%)]"
         >
             <Head title={`Playlists de ${category.name}`} />
 
-            <Toast message={flashMessage} variant={flash?.error ? 'error' : 'success'} />
+            <Toast
+                message={flashMessage}
+                variant={flash?.error ? 'error' : 'success'}
+            />
 
             <div className="flex flex-col gap-8 p-6">
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
@@ -192,11 +201,15 @@ export default function PlaylistsIndex({
                             Playlists de {category.name}
                         </h1>
                         <p className="text-sm text-gray-600">
-                            Gestiona tus listas de reproducción guardadas dentro de esta categoría.
+                            Gestiona tus listas de reproducción guardadas dentro
+                            de esta categoría.
                         </p>
                     </div>
 
-                    <Button onClick={openCreateModal} className="h-10 gap-2 self-start sm:self-auto">
+                    <Button
+                        onClick={openCreateModal}
+                        className="h-10 gap-2 self-start sm:self-auto"
+                    >
                         <Plus className="size-4" aria-hidden />
                         Nueva playlist
                     </Button>
@@ -214,10 +227,12 @@ export default function PlaylistsIndex({
                 {playlists.length === 0 ? (
                     <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-gray-200 bg-white/60 p-12 text-center shadow-sm">
                         <p className="text-lg font-medium text-gray-700">
-                            Aún no tienes playlists registradas en {category.name}.
+                            Aún no tienes playlists registradas en{' '}
+                            {category.name}.
                         </p>
                         <p className="mt-2 max-w-lg text-sm text-gray-500">
-                            Crea una playlist para mantener tus videos favoritos organizados en esta temática.
+                            Crea una playlist para mantener tus videos favoritos
+                            organizados en esta temática.
                         </p>
                         <Button onClick={openCreateModal} className="mt-6">
                             Crear playlist
@@ -283,13 +298,18 @@ export default function PlaylistsIndex({
                     className="space-y-5"
                 >
                     <div className="space-y-2">
-                        <label htmlFor="playlist-title" className="text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor="playlist-title"
+                            className="text-sm font-medium text-gray-700"
+                        >
                             Título de la playlist
                         </label>
                         <Input
                             id="playlist-title"
                             value={form.data.title}
-                            onChange={(event) => form.setData('title', event.target.value)}
+                            onChange={(event) =>
+                                form.setData('title', event.target.value)
+                            }
                             placeholder="Ej. Cursos de Laravel 12"
                             required
                         />
@@ -297,14 +317,19 @@ export default function PlaylistsIndex({
                     </div>
 
                     <div className="space-y-2">
-                        <label htmlFor="playlist-url" className="text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor="playlist-url"
+                            className="text-sm font-medium text-gray-700"
+                        >
                             URL de la playlist
                         </label>
                         <Input
                             id="playlist-url"
                             type="url"
                             value={form.data.url}
-                            onChange={(event) => form.setData('url', event.target.value)}
+                            onChange={(event) =>
+                                form.setData('url', event.target.value)
+                            }
                             placeholder="https://www.youtube.com/playlist?list=..."
                             required
                         />
@@ -312,13 +337,18 @@ export default function PlaylistsIndex({
                     </div>
 
                     <div className="space-y-2">
-                        <label htmlFor="playlist-description" className="text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor="playlist-description"
+                            className="text-sm font-medium text-gray-700"
+                        >
                             Descripción (opcional)
                         </label>
                         <Textarea
                             id="playlist-description"
                             value={form.data.description}
-                            onChange={(event) => form.setData('description', event.target.value)}
+                            onChange={(event) =>
+                                form.setData('description', event.target.value)
+                            }
                             placeholder="Descripción breve para recordar el contenido de la playlist."
                             rows={4}
                         />
@@ -336,14 +366,20 @@ export default function PlaylistsIndex({
                                     className="flex items-center gap-3 text-sm text-gray-700"
                                 >
                                     <Checkbox
-                                        checked={form.data.categories.includes(item.id)}
-                                        onCheckedChange={() => toggleCategory(item.id)}
+                                        checked={form.data.categories.includes(
+                                            item.id,
+                                        )}
+                                        onCheckedChange={() =>
+                                            toggleCategory(item.id)
+                                        }
                                     />
                                     <span>{item.name}</span>
                                 </label>
                             ))}
                         </div>
-                        <InputError message={form.errors.categories as string} />
+                        <InputError
+                            message={form.errors.categories as string}
+                        />
                     </div>
                 </form>
             </Modal>

@@ -1,11 +1,11 @@
-import { Head, Link, usePage } from '@inertiajs/react';
 import { AppShell } from '@/components/app-shell';
 import { Button } from '@/components/ui/button';
-import channelCategoriesRoutes from '@/routes/channel-categories';
 import { login, logout, register } from '@/routes';
+import channelCategoriesRoutes from '@/routes/channel-categories';
 import playlistCategoriesRoutes from '@/routes/playlist-categories';
 import profileRoutes from '@/routes/profile';
 import type { SharedData } from '@/types';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { Youtube } from 'lucide-react';
 
 /**
@@ -73,26 +73,28 @@ export default function Home() {
                             <div className="flex flex-col items-center gap-4">
                                 <div className="flex items-center gap-4">
                                     <span className="flex size-16 items-center justify-center rounded-full bg-white/90 text-red-600 shadow-lg">
-                                        <Youtube className="size-8" aria-hidden />
+                                        <Youtube
+                                            className="size-8"
+                                            aria-hidden
+                                        />
                                     </span>
                                     <h1 className="text-4xl font-bold sm:text-5xl">
                                         YouTube Content Manager
                                     </h1>
                                 </div>
                                 <p className="max-w-2xl text-lg text-white/80 sm:text-xl">
-                                    Organize your favorite YouTube playlists and channels.
+                                    Organize your favorite YouTube playlists and
+                                    channels.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
-           <div className="mx-auto flex max-w-5xl flex-col gap-12 px-6 sm:px-10">
-                    
-
-                    <div className="grid gap-20 md:grid-cols-2 mb-20">
+                <div className="mx-auto flex max-w-5xl flex-col gap-12 px-6 sm:px-10">
+                    <div className="mb-20 grid gap-20 md:grid-cols-2">
                         <Link
                             href={playlistCategoriesHref}
-                            className="group relative overflow-hidden rounded-2xl bg-[rgb(226,223,206)]  shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl "
+                            className="group relative overflow-hidden rounded-2xl bg-[rgb(226,223,206)] shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
                         >
                             <div className="p-8">
                                 <div className="flex size-16 items-center justify-center rounded-full bg-red-100 text-red-600 transition-colors group-hover:bg-red-200">
@@ -102,9 +104,11 @@ export default function Home() {
                                     Categorías de playlists
                                 </h3>
                                 <p className="mt-3 text-gray-600">
-                                    Agrupa y administra tus listas de reproducción por temas para encontrarlas al instante.
+                                    Agrupa y administra tus listas de
+                                    reproducción por temas para encontrarlas al
+                                    instante.
                                 </p>
-                                <div className="mt-6 flex items-center text-red-600 font-medium transition-transform group-hover:translate-x-4">
+                                <div className="mt-6 flex items-center font-medium text-red-600 transition-transform group-hover:translate-x-4">
                                     <span>Ver categorías</span>
                                     <svg
                                         className="ml-2 size-5"
@@ -126,7 +130,7 @@ export default function Home() {
 
                         <Link
                             href={channelCategoriesHref}
-                            className="group relative overflow-hidden rounded-2xl bg-[rgb(226,223,206)]  shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+                            className="group relative overflow-hidden rounded-2xl bg-[rgb(226,223,206)] shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
                         >
                             <div className="p-8">
                                 <div className="flex size-16 items-center justify-center rounded-full bg-blue-100 text-blue-600 transition-colors group-hover:bg-blue-200">
@@ -136,9 +140,10 @@ export default function Home() {
                                     Categorías de canales
                                 </h3>
                                 <p className="mt-3 text-gray-600">
-                                    Clasifica tus canales favoritos y mantén a la vista los contenidos que más te inspiran.
+                                    Clasifica tus canales favoritos y mantén a
+                                    la vista los contenidos que más te inspiran.
                                 </p>
-                                <div className="mt-6 flex items-center text-blue-600 font-medium transition-transform group-hover:translate-x-4">
+                                <div className="mt-6 flex items-center font-medium text-blue-600 transition-transform group-hover:translate-x-4">
                                     <span>Ver categorías</span>
                                     <svg
                                         className="ml-2 size-5"
@@ -159,11 +164,7 @@ export default function Home() {
                         </Link>
                     </div>
                 </div>
-           
-           
             </section>
-
-            
         </AppShell>
     );
 }

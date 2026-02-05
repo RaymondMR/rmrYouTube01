@@ -1,7 +1,7 @@
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Link } from '@inertiajs/react';
-import { Calendar, Edit, Trash2 } from 'lucide-react';
+import { Edit, Trash2 } from 'lucide-react';
 
 interface CategoryCardProps {
     /** Nombre de la categoría */
@@ -42,18 +42,18 @@ export function CategoryCard({
     }).format(new Date(createdAt));
 
     return (
-        <Card className="h-full overflow-hidden border-t-[10px] border-b-[10px] border-yellow-300 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md hover:bg-gray-400">
+        <Card className="h-full overflow-hidden border-t-[10px] border-b-[10px] border-yellow-300 bg-white shadow-sm transition hover:-translate-y-1 hover:bg-gray-400 hover:shadow-md">
             <Link href={href} className="block">
-                <div className="flex items-start justify-between w-full ">
+                <div className="flex w-full items-start justify-between">
                     <CardContent className="flex-1">
                         <h3 className="text-xl font-semibold text-gray-900">
                             {name}
                         </h3>
-                        <p className="text-sm text-gray-600 mt-2">
+                        <p className="mt-2 text-sm text-gray-600">
                             {totalItems}{' '}
                             {totalItems === 1
                                 ? itemLabel
-                                : itemsLabel ?? `${itemLabel}s`}
+                                : (itemsLabel ?? `${itemLabel}s`)}
                         </p>
                         {/* <div className="flex items-center gap-2 text-xs text-gray-500">
                             <Calendar className="size-4" aria-hidden />
@@ -83,8 +83,6 @@ export function CategoryCard({
                     </div>
                 </div>
             </Link>
-
-            
         </Card>
     );
 }

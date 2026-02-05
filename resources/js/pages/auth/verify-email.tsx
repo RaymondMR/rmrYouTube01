@@ -38,7 +38,7 @@ export default function VerifyEmail({ status }: { status?: string }) {
 
                         <TextLink
                             href={logout()}
-                            className="mx-auto block text-sm"
+                            className="mx-auto block text-sm font-medium text-blue-600 hover:text-blue-800"
                         >
                             Log out
                         </TextLink>

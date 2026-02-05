@@ -1,16 +1,16 @@
-import { Modal } from '@/components/modal';
-import InputError from '@/components/input-error';
 import { ChannelCard } from '@/components/channel-card';
+import InputError from '@/components/input-error';
+import { Modal } from '@/components/modal';
 import { SearchBar } from '@/components/search-bar';
 import { Toast } from '@/components/toast';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
+import { home } from '@/routes';
 import channelCategoriesRoutes from '@/routes/channel-categories';
 import channelsRoutes from '@/routes/channels';
-import { home } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router, useForm, usePage } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
@@ -45,7 +45,10 @@ interface PageProps {
 
 const breadcrumbBase: BreadcrumbItem[] = [
     { title: 'Inicio', href: home().url },
-    { title: 'Categorías de Canales', href: channelCategoriesRoutes.index().url },
+    {
+        title: 'Categorías de Canales',
+        href: channelCategoriesRoutes.index().url,
+    },
 ];
 
 /**
@@ -133,9 +136,7 @@ export default function ChannelsIndex({
 
     const handleDelete = (channel: Channel) => {
         if (
-            confirm(
-                `¿Seguro que deseas eliminar el canal "${channel.name}"?`,
-            )
+            confirm(`¿Seguro que deseas eliminar el canal "${channel.name}"?`)
         ) {
             deleteForm.delete(channelsRoutes.destroy(channel.id).url, {
                 preserveScroll: true,
@@ -178,12 +179,16 @@ export default function ChannelsIndex({
     }, [initialSearch]);
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}
-        contentClassName="bg-[linear-gradient(180deg,_rgb(180,172,141)_0%,_rgb(226,223,206)_55%,_rgb(224,220,220)_100%)]"
+        <AppLayout
+            breadcrumbs={breadcrumbs}
+            contentClassName="bg-[linear-gradient(180deg,_rgb(180,172,141)_0%,_rgb(226,223,206)_55%,_rgb(224,220,220)_100%)]"
         >
             <Head title={`Canales de ${category.name}`} />
 
-            <Toast message={flashMessage} variant={flash?.error ? 'error' : 'success'} />
+            <Toast
+                message={flashMessage}
+                variant={flash?.error ? 'error' : 'success'}
+            />
 
             <div className="flex flex-col gap-8 p-6">
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
@@ -192,11 +197,15 @@ export default function ChannelsIndex({
                             Canales de {category.name}
                         </h1>
                         <p className="text-sm text-gray-600">
-                            Mantén organizados tus canales favoritos dentro de esta categoría.
+                            Mantén organizados tus canales favoritos dentro de
+                            esta categoría.
                         </p>
                     </div>
 
-                    <Button onClick={openCreateModal} className="h-10 gap-2 self-start sm:self-auto">
+                    <Button
+                        onClick={openCreateModal}
+                        className="h-10 gap-2 self-start sm:self-auto"
+                    >
                         <Plus className="size-4" aria-hidden />
                         Nuevo canal
                     </Button>
@@ -217,7 +226,8 @@ export default function ChannelsIndex({
                             No se encontraron canales en {category.name}.
                         </p>
                         <p className="mt-2 max-w-lg text-sm text-gray-500">
-                            Registra tus canales favoritos para tenerlos siempre a mano.
+                            Registra tus canales favoritos para tenerlos siempre
+                            a mano.
                         </p>
                         <Button onClick={openCreateModal} className="mt-6">
                             Registrar canal
@@ -231,7 +241,9 @@ export default function ChannelsIndex({
                                 name={channel.name}
                                 description={channel.description}
                                 url={channel.url}
-                                handle={channel.youtube_channel_handle ?? undefined}
+                                handle={
+                                    channel.youtube_channel_handle ?? undefined
+                                }
                                 categories={channel.categories}
                                 createdAt={channel.created_at}
                                 onEdit={() => openEditModal(channel)}
@@ -283,13 +295,18 @@ export default function ChannelsIndex({
                     className="space-y-5"
                 >
                     <div className="space-y-2">
-                        <label htmlFor="channel-name" className="text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor="channel-name"
+                            className="text-sm font-medium text-gray-700"
+                        >
                             Nombre del canal
                         </label>
                         <Input
                             id="channel-name"
                             value={form.data.name}
-                            onChange={(event) => form.setData('name', event.target.value)}
+                            onChange={(event) =>
+                                form.setData('name', event.target.value)
+                            }
                             placeholder="Ej. Traversy Media"
                             required
                         />
@@ -297,14 +314,19 @@ export default function ChannelsIndex({
                     </div>
 
                     <div className="space-y-2">
-                        <label htmlFor="channel-url" className="text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor="channel-url"
+                            className="text-sm font-medium text-gray-700"
+                        >
                             URL del canal
                         </label>
                         <Input
                             id="channel-url"
                             type="url"
                             value={form.data.url}
-                            onChange={(event) => form.setData('url', event.target.value)}
+                            onChange={(event) =>
+                                form.setData('url', event.target.value)
+                            }
                             placeholder="https://www.youtube.com/@MiCanal"
                             required
                         />
@@ -312,13 +334,18 @@ export default function ChannelsIndex({
                     </div>
 
                     <div className="space-y-2">
-                        <label htmlFor="channel-description" className="text-sm font-medium text-gray-700">
+                        <label
+                            htmlFor="channel-description"
+                            className="text-sm font-medium text-gray-700"
+                        >
                             Descripción (opcional)
                         </label>
                         <Textarea
                             id="channel-description"
                             value={form.data.description}
-                            onChange={(event) => form.setData('description', event.target.value)}
+                            onChange={(event) =>
+                                form.setData('description', event.target.value)
+                            }
                             placeholder="Cuenta de qué trata este canal y por qué lo agregas."
                             rows={4}
                         />
@@ -336,14 +363,20 @@ export default function ChannelsIndex({
                                     className="flex items-center gap-3 text-sm text-gray-700"
                                 >
                                     <Checkbox
-                                        checked={form.data.categories.includes(item.id)}
-                                        onCheckedChange={() => toggleCategory(item.id)}
+                                        checked={form.data.categories.includes(
+                                            item.id,
+                                        )}
+                                        onCheckedChange={() =>
+                                            toggleCategory(item.id)
+                                        }
                                     />
                                     <span>{item.name}</span>
                                 </label>
                             ))}
                         </div>
-                        <InputError message={form.errors.categories as string} />
+                        <InputError
+                            message={form.errors.categories as string}
+                        />
                     </div>
                 </form>
             </Modal>

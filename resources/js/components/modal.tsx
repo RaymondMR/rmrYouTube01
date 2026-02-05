@@ -1,12 +1,12 @@
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-    DialogClose,
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import { type ReactNode } from 'react';
@@ -43,10 +43,14 @@ export function Modal({
 }: ModalProps) {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className={cn('max-h-[90vh] overflow-y-auto', className)}>
+            <DialogContent
+                className={cn('max-h-[90vh] overflow-y-auto', className)}
+            >
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
-                    {description && <DialogDescription>{description}</DialogDescription>}
+                    {description && (
+                        <DialogDescription>{description}</DialogDescription>
+                    )}
                 </DialogHeader>
 
                 <div className="space-y-4">{children}</div>
