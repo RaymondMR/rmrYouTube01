@@ -1,4 +1,5 @@
 import { CategoryCard } from '@/components/category-card';
+import { PlaylistCard } from '@/components/playlist-card';
 import InputError from '@/components/input-error';
 import { Modal } from '@/components/modal';
 import { SearchBar } from '@/components/search-bar';
@@ -24,6 +25,18 @@ interface PlaylistCategory {
 interface PageProps {
     categories: PlaylistCategory[];
     search?: string;
+    // resultados de búsqueda de playlists si se solicitó
+    foundPlaylists?: Array<{
+        id: number;
+        title: string;
+        description?: string | null;
+        url: string;
+        thumbnail_url?: string | null;
+        categories: Array<{ id: number; name: string }>;
+        created_at: string;
+    }>;
+    playlistSearch?: string;
+    playlistField?: 'title' | 'description';
     flash?: {
         success?: string;
         error?: string;
@@ -45,9 +58,16 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function PlaylistCategoriesIndex({
     categories,
     search: initialSearch = '',
+    foundPlaylists,
+    playlistSearch = '',
+    playlistField = 'title',
 }: PageProps) {
     const { flash } = usePage<PageProps>().props;
     const [searchTerm, setSearchTerm] = useState(initialSearch);
+    const [playlistSearchTerm, setPlaylistSearchTerm] =
+        useState<string>(playlistSearch ?? '');
+    const [playlistSearchField, setPlaylistSearchField] =
+        useState<'title' | 'description'>(playlistField ?? 'title');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingCategory, setEditingCategory] =
         useState<PlaylistCategory | null>(null);
@@ -114,10 +134,34 @@ export default function PlaylistCategoriesIndex({
         }
     };
 
+    const buildParams = () => {
+        const params: Record<string, any> = {};
+        if (searchTerm) {
+            params.search = searchTerm;
+        }
+        if (playlistSearchTerm) {
+            params.playlist_search = playlistSearchTerm;
+            params.playlist_field = playlistSearchField;
+        }
+        return params;
+    };
+
     const handleSearch = () => {
         router.get(
             playlistCategoriesRoutes.index().url,
-            { search: searchTerm || undefined },
+            buildParams(),
+            {
+                preserveState: true,
+                preserveScroll: true,
+                replace: true,
+            },
+        );
+    };
+
+    const handlePlaylistSearch = () => {
+        router.get(
+            playlistCategoriesRoutes.index().url,
+            buildParams(),
             {
                 preserveState: true,
                 preserveScroll: true,
@@ -128,6 +172,8 @@ export default function PlaylistCategoriesIndex({
 
     const resetFilters = () => {
         setSearchTerm('');
+        setPlaylistSearchTerm('');
+        setPlaylistSearchField('title');
         router.get(
             playlistCategoriesRoutes.index().url,
             {},
@@ -148,6 +194,12 @@ export default function PlaylistCategoriesIndex({
         // Actualiza el valor cuando cambia la búsqueda desde el backend
         setSearchTerm(initialSearch);
     }, [initialSearch]);
+
+    useEffect(() => {
+        // sincroniza los valores de búsqueda de playlists
+        setPlaylistSearchTerm(playlistSearch ?? '');
+        setPlaylistSearchField(playlistField ?? 'title');
+    }, [playlistSearch, playlistField]);
 
     return (
         <AppLayout
@@ -183,15 +235,81 @@ export default function PlaylistCategoriesIndex({
                     </Button>
                 </div>
 
-                {/* Barra de búsqueda */}
-                <SearchBar
-                    value={searchTerm}
-                    onChange={setSearchTerm}
-                    onSubmit={handleSearch}
-                    onReset={initialSearch ? resetFilters : undefined}
-                    loading={form.processing || deleteForm.processing}
-                    placeholder="Buscar categorías por nombre"
-                />
+                {/* Barras de búsqueda: categorías y playlists */}
+                <div className="flex flex-col gap-4 md:flex-row md:items-center">
+                    <SearchBar
+                        value={searchTerm}
+                        onChange={setSearchTerm}
+                        onSubmit={handleSearch}
+                        onReset={initialSearch || playlistSearch ? resetFilters : undefined}
+                        loading={form.processing || deleteForm.processing}
+                        placeholder="Buscar categorías por nombre"
+                        className="flex-1"
+                    />
+
+                    <div className="flex items-center gap-2">
+                        <Input
+                            value={playlistSearchTerm}
+                            onChange={(e) => setPlaylistSearchTerm(e.target.value)}
+                            placeholder="Buscar playlists"
+                            className="w-full max-w-xs"
+                        />
+                        <select
+                            className="rounded-md border-gray-300 bg-white px-2 py-1 text-sm"
+                            value={playlistSearchField}
+                            onChange={(e) =>
+                                setPlaylistSearchField(
+                                    e.target.value as 'title' | 'description',
+                                )
+                            }
+                        >
+                            <option value="title">Título</option>
+                            <option value="description">Descripción</option>
+                        </select>
+                        <Button
+                            type="button"
+                            onClick={handlePlaylistSearch}
+                            disabled={form.processing || deleteForm.processing}
+                        >
+                            Buscar
+                        </Button>
+                    </div>
+                </div>
+
+                {/* resultados de búsqueda de playlists (si se hizo una) */}
+                {foundPlaylists !== undefined && (
+                    <div className="space-y-4">
+                        <h2 className="text-2xl font-semibold text-gray-900">
+                            Resultados de playlists
+                        </h2>
+                        {foundPlaylists && foundPlaylists.length > 0 ? (
+                            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                                {foundPlaylists.map((pl) => (
+                                    <PlaylistCard
+                                        key={pl.id}
+                                        title={pl.title}
+                                        description={pl.description}
+                                        url={pl.url}
+                                        thumbnailUrl={pl.thumbnail_url ?? undefined}
+                                        categories={pl.categories}
+                                        createdAt={pl.created_at}
+                                        onEdit={() => {
+                                            /* no hay edición desde este listado */
+                                        }}
+                                        onDelete={() => {
+                                            /* no hay borrado desde este listado */
+                                        }}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-sm text-gray-600">
+                                No se encontraron playlists que coincidan con la
+                                búsqueda.
+                            </p>
+                        )}
+                    </div>
+                )}
 
                 {/* Grid de categorías */}
                 {categories.length === 0 ? (

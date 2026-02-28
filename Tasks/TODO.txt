@@ -1,0 +1,14 @@
+CONTEXTO:
+Tenemos un proyecto de Laravel, ya configurado, con autenticación, login, logout, y un modelo completo on su controller.
+Y este proyecto lo pretendo usar como Template, y lo subo a mi cuenta de GitHub, por lo que, más tarde, si hago otro proyecto solo copio este folder del template a una nueva ubicación y desde ahí sigo trabajando/
+
+PREGUNTA:
+Es factible ese flujo de trabajo ?
+Si funcionaria, cuales pudieran ser los bloqueos o errores ?
+
+
+CONTEXTO:
+A veces sucede que queremos ver una playlist y no sabemos en que categoría se encuentra, por lo que es necesario agregar un formulario para buscar una playlist sin proporcionar categoría
+
+TAREA: 
+En el side bar, incluye un link que conduzca a una nueva página para buscar una playlist que contenga palabras proporcionadas por el usuario, y no precisamente buscar por categoría

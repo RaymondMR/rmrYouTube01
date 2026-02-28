@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PlaylistCategory;
+use App\Models\Playlist;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -24,7 +25,7 @@ class PlaylistCategoryController extends Controller
         // Query builder para categorías
         $query = PlaylistCategory::withCount('playlists');
 
-        // Aplica filtro de búsqueda si existe
+        // Aplica filtro de búsqueda si existe (solo en el nombre de la categoría)
         if ($search) {
             $query->where('name', 'like', "%{$search}%");
         }
@@ -32,10 +33,37 @@ class PlaylistCategoryController extends Controller
         // Ordena por nombre y obtiene resultados
         $categories = $query->orderBy('name')->get();
 
-        return Inertia::render('PlaylistCategories/Index', [
+        // --- Nuevo: búsqueda de playlists global ---
+        $playlistSearch = $request->input('playlist_search');
+        $playlistField = $request->input('playlist_field', 'title');
+        $foundPlaylists = null;
+
+        if ($playlistSearch) {
+            // asegurarnos de que el campo sea válido
+            if (! in_array($playlistField, ['title', 'description'], true)) {
+                $playlistField = 'title';
+            }
+
+            $foundPlaylists = 
+                // obtener únicamente las playlists del usuario actual
+                \App\Models\Playlist::with('categories')
+                    ->where('user_id', auth()->id())
+                    ->where($playlistField, 'like', "%{$playlistSearch}%")
+                    ->get();
+        }
+
+        $data = [
             'categories' => $categories,
             'search' => $search,
-        ]);
+            'playlistSearch' => $playlistSearch,
+            'playlistField' => $playlistField,
+        ];
+
+        if ($playlistSearch) {
+            $data['foundPlaylists'] = $foundPlaylists;
+        }
+
+        return Inertia::render('PlaylistCategories/Index', $data);
     }
 
     /**

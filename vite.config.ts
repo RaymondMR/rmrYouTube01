@@ -20,4 +20,13 @@ export default defineConfig({
     esbuild: {
         jsx: 'automatic',
     },
+	// AGREGAMOS ESTA SECCIÓN PARA CORREGIR EL ERROR DE BLOQUEO
+    server: {
+        host: '127.0.0.1',
+        port: 5173,
+        strictPort: true,
+        hmr: {
+            host: '127.0.0.1',
+        },
+    },
 });
