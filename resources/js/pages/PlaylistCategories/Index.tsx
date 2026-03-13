@@ -5,7 +5,9 @@ import { Modal } from '@/components/modal';
 import { SearchBar } from '@/components/search-bar';
 import { Toast } from '@/components/toast';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { home } from '@/routes';
 import playlistCategoriesRoutes from '@/routes/playlist-categories';
@@ -18,23 +20,24 @@ import { useEffect, useMemo, useState } from 'react';
 interface PlaylistCategory {
     id: number;
     name: string;
-    playlists_count: number;
+    playlists_count?: number;
+    created_at?: string;
+}
+
+interface Playlist {
+    id: number;
+    title: string;
+    description?: string | null;
+    url: string;
+    thumbnail_url?: string | null;
+    categories: Array<{ id: number; name: string }>;
     created_at: string;
 }
 
 interface PageProps {
     categories: PlaylistCategory[];
     search?: string;
-    // resultados de búsqueda de playlists si se solicitó
-    foundPlaylists?: Array<{
-        id: number;
-        title: string;
-        description?: string | null;
-        url: string;
-        thumbnail_url?: string | null;
-        categories: Array<{ id: number; name: string }>;
-        created_at: string;
-    }>;
+    foundPlaylists?: Playlist[];
     playlistSearch?: string;
     playlistField?: 'title' | 'description';
     flash?: {
@@ -71,13 +74,24 @@ export default function PlaylistCategoriesIndex({
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingCategory, setEditingCategory] =
         useState<PlaylistCategory | null>(null);
+    const [isPlaylistModalOpen, setIsPlaylistModalOpen] = useState(false);
+    const [editingPlaylist, setEditingPlaylist] = useState<Playlist | null>(
+        null,
+    );
 
     // Formulario para crear/editar una categoría
     const form = useForm({
         name: '',
     });
 
-    // Formulario para eliminar una categoría
+    const playlistForm = useForm({
+        title: '',
+        description: '',
+        url: '',
+        categories: [] as number[],
+    });
+
+    // Formulario para eliminar
     const deleteForm = useForm({});
 
     // Muestra el modal y resetea datos según corresponda
@@ -90,7 +104,7 @@ export default function PlaylistCategoriesIndex({
 
     const openEditModal = (category: PlaylistCategory) => {
         setEditingCategory(category);
-        form.setData('name', category.name);
+        form.setData('name', category.name ?? '');
         form.clearErrors();
         setIsModalOpen(true);
     };
@@ -131,6 +145,55 @@ export default function PlaylistCategoriesIndex({
                     preserveScroll: true,
                 },
             );
+        }
+    };
+
+    const openPlaylistEditModal = (playlist: Playlist) => {
+        setEditingPlaylist(playlist);
+        playlistForm.setData({
+            title: playlist.title,
+            description: playlist.description ?? '',
+            url: playlist.url,
+            categories: playlist.categories.map((item) => item.id),
+        });
+        playlistForm.clearErrors();
+        setIsPlaylistModalOpen(true);
+    };
+
+    const closePlaylistModal = () => {
+        setIsPlaylistModalOpen(false);
+        setEditingPlaylist(null);
+        playlistForm.reset();
+        playlistForm.clearErrors();
+    };
+
+    const togglePlaylistCategory = (categoryId: number) => {
+        playlistForm.setData(
+            'categories',
+            playlistForm.data.categories.includes(categoryId)
+                ? playlistForm.data.categories.filter((id) => id !== categoryId)
+                : [...playlistForm.data.categories, categoryId],
+        );
+    };
+
+    const handlePlaylistSubmit = () => {
+        if (editingPlaylist) {
+            playlistForm.put(playlistsRoutes.update(editingPlaylist.id).url, {
+                preserveScroll: true,
+                onSuccess: closePlaylistModal,
+            });
+        }
+    };
+
+    const handlePlaylistDelete = (playlist: Playlist) => {
+        if (
+            confirm(
+                `¿Seguro que deseas eliminar la playlist "${playlist.title}"?`,
+            )
+        ) {
+            deleteForm.delete(playlistsRoutes.destroy(playlist.id).url, {
+                preserveScroll: true,
+            });
         }
     };
 
@@ -293,12 +356,8 @@ export default function PlaylistCategoriesIndex({
                                         thumbnailUrl={pl.thumbnail_url ?? undefined}
                                         categories={pl.categories}
                                         createdAt={pl.created_at}
-                                        onEdit={() => {
-                                            /* no hay edición desde este listado */
-                                        }}
-                                        onDelete={() => {
-                                            /* no hay borrado desde este listado */
-                                        }}
+                                        onEdit={() => openPlaylistEditModal(pl)}
+                                        onDelete={() => handlePlaylistDelete(pl)}
                                     />
                                 ))}
                             </div>
@@ -331,8 +390,8 @@ export default function PlaylistCategoriesIndex({
                             <CategoryCard
                                 key={category.id}
                                 name={category.name}
-                                totalItems={category.playlists_count}
-                                createdAt={category.created_at}
+                                totalItems={category.playlists_count ?? 0}
+                                createdAt={category.created_at ?? ''}
                                 href={playlistsRoutes.index(category.id).url}
                                 onEdit={() => openEditModal(category)}
                                 onDelete={() => handleDelete(category)}
@@ -402,6 +461,134 @@ export default function PlaylistCategoriesIndex({
                             autoFocus
                         />
                         <InputError message={form.errors.name} />
+                    </div>
+                </form>
+            </Modal>
+
+            {/* Modal para editar playlists */}
+            <Modal
+                open={isPlaylistModalOpen}
+                onOpenChange={(open) => {
+                    if (!open) {
+                        closePlaylistModal();
+                    } else {
+                        setIsPlaylistModalOpen(true);
+                    }
+                }}
+                title={editingPlaylist ? 'Editar playlist' : 'Nueva playlist'}
+                description="Completa los datos de la playlist y selecciona al menos una categoría."
+                footer={
+                    <div className="flex w-full justify-end gap-2">
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={closePlaylistModal}
+                            disabled={playlistForm.processing}
+                        >
+                            Cancelar
+                        </Button>
+                        <Button
+                            type="submit"
+                            form="playlist-form"
+                            className="min-w-[140px]"
+                            disabled={playlistForm.processing}
+                        >
+                            {playlistForm.processing ? 'Guardando…' : 'Guardar'}
+                        </Button>
+                    </div>
+                }
+            >
+                <form
+                    id="playlist-form"
+                    onSubmit={(event) => {
+                        event.preventDefault();
+                        handlePlaylistSubmit();
+                    }}
+                    className="space-y-5"
+                >
+                    <div className="space-y-2">
+                        <label
+                            htmlFor="playlist-title"
+                            className="text-sm font-medium text-gray-700"
+                        >
+                            Título de la playlist
+                        </label>
+                        <Input
+                            id="playlist-title"
+                            value={playlistForm.data.title}
+                            onChange={(event) =>
+                                playlistForm.setData('title', event.target.value)
+                            }
+                            placeholder="Ej. Cursos de Laravel 12"
+                            required
+                        />
+                        <InputError message={playlistForm.errors.title} />
+                    </div>
+
+                    <div className="space-y-2">
+                        <label
+                            htmlFor="playlist-url"
+                            className="text-sm font-medium text-gray-700"
+                        >
+                            URL de la playlist
+                        </label>
+                        <Input
+                            id="playlist-url"
+                            type="url"
+                            value={playlistForm.data.url}
+                            onChange={(event) =>
+                                playlistForm.setData('url', event.target.value)
+                            }
+                            placeholder="https://www.youtube.com/playlist?list=..."
+                            required
+                        />
+                        <InputError message={playlistForm.errors.url} />
+                    </div>
+
+                    <div className="space-y-2">
+                        <label
+                            htmlFor="playlist-description"
+                            className="text-sm font-medium text-gray-700"
+                        >
+                            Descripción (opcional)
+                        </label>
+                        <Textarea
+                            id="playlist-description"
+                            value={playlistForm.data.description}
+                            onChange={(event) =>
+                                playlistForm.setData('description', event.target.value)
+                            }
+                            placeholder="Descripción breve para recordar el contenido de la playlist."
+                            rows={4}
+                        />
+                        <InputError message={playlistForm.errors.description} />
+                    </div>
+
+                    <div className="space-y-3">
+                        <p className="text-sm font-medium text-gray-700">
+                            Categorías asignadas
+                        </p>
+                        <div className="grid gap-2 rounded-lg border border-gray-200 bg-white p-4">
+                            {categories.map((item) => (
+                                <label
+                                    key={item.id}
+                                    className="flex items-center gap-3 text-sm text-gray-700"
+                                >
+                                    <Checkbox
+                                        checked={playlistForm.data.categories.includes(
+                                            item.id,
+                                        )}
+                                        onCheckedChange={() =>
+                                            togglePlaylistCategory(item.id)
+                                        }
+                                    />
+                                    <span>{item.name}</span>
+                                </label>
+                            ))}
+                        </div>
+                        <InputError
+                            message={playlistForm.errors.categories as string}
+                        />
                     </div>
                 </form>
             </Modal>
